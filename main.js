@@ -75,7 +75,6 @@ $(document).ready(function(){
   hideFun.dealerReveal = function(){
     var cardFace = preload.images[4*cards.dealer[0][0]+cards.dealer[0][1]];
     $dealerHand.children().first().attr('src', cardFace);
-    debugger;
   };
 
   hideFun.getWinner = function(){ //draw 21 initially player wins, even draw is called push always a tie, if player busts dealer's card does not need to be revealed
@@ -121,7 +120,6 @@ $(document).ready(function(){
     var aces = [];
     var handSum = 0;
     cards[who].forEach(function(card, index){
-      debugger;
       if(card[0] === 0){
         handSum += 11;
         aces.push(index);
@@ -136,12 +134,10 @@ $(document).ready(function(){
         }
       };
     });
-    debugger;
     if(handSum === 21){
       gameOver = true;
     }
     else if (handSum > 21){
-      debugger;
       if(aces.length > 0){
         for(var i = (aces.length-1); i >= 0; i--){ //decrease value of ace
           handSum -= 10;
@@ -165,7 +161,6 @@ $(document).ready(function(){
   }
 
   hideFun.hit = function(){
-    debugger;
     if(!gameOver){
       var card = cards.draw();
       cards["player"].push(card);
