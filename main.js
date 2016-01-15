@@ -88,11 +88,16 @@ $(document).ready(function(){
     var playerScore = hideFun.scoreCheck("player");
     var dealerScore = hideFun.scoreCheck("dealer");
     if(playerScore === 21){
-      if(dealerScore !== 21){
-        alert("Player wins!");
+      if(cards.player.length > 2){
+        if(dealerScore !== 21){
+          alert("Player wins!");
+        }
+        else{
+          alert("It's a draw! Double Blackjack!");
+        }
       }
       else{
-        alert("It's a draw! Double Blackjack!");
+        alert("Player wins!");
       }
     }
     else if(dealerScore === 21){
