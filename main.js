@@ -1,3 +1,5 @@
+"use strict";
+
 $(document).ready(function(){
   var cards = {deck: [], player: [], dealer:[]};
   var preload = {images: []};
@@ -5,6 +7,8 @@ $(document).ready(function(){
 
   var $dealerHand = $('#dealerHand');
   var $playerHand = $('#playerHand');
+
+  var gameOver = false;
 
   for(var i = 1; i <= 13; i++){
     preload.images.push(new Image().src = "cards/"+i+"clubs.png");
@@ -40,7 +44,6 @@ $(document).ready(function(){
   hideFun.popTable = function(){
     var dealerCards = [];
     cards.dealer.forEach(function(card, index){
-      console.log(card);
       if(index === 0){
         var cardImg = preload.images[52];
       }
@@ -54,7 +57,6 @@ $(document).ready(function(){
 
     var playerCards = [];
     cards.player.forEach(function(card){
-      console.log(card);
       var cardImg = preload.images[4*card[0]+card[1]]; //math is awesome
       var $card = $('<img>').attr('src', cardImg).addClass('card');
       playerCards.push($card);
@@ -65,39 +67,130 @@ $(document).ready(function(){
   hideFun.initHands = function(){
       cards["player"].push(cards.draw(), cards.draw());
       cards["dealer"].push(cards.draw(), cards.draw());
+      if(hideFun.scoreCheck("player") === 21){
+        hideFun.getWinner();
+      }
   }
 
-  hideFun.playerCheck = function(){
-    //check if player's hand >= 21
-  }
+  hideFun.dealerReveal = function(){
+    var cardFace = preload.images[4*cards.dealer[0][0]+cards.dealer[0][1]];
+    $dealerHand.children().first().attr('src', cardFace);
+    debugger;
+  };
 
-  hideFun.dealerCheck = function(){
-    //check if dealer's hand >= 21
-    //else if dealer's hand < 17 hit
-    //else eval dealers hand vs player's hand
+  hideFun.getWinner = function(){ //draw 21 initially player wins, even draw is called push always a tie, if player busts dealer's card does not need to be revealed
+    var playerScore = hideFun.scoreCheck("player");
+    var dealerScore = hideFun.scoreCheck("dealer");
+    hideFun.dealerReveal()
+    if(playerScore === 21){
+      if(dealerScore !== 21){
+        alert("Player wins!");
+      }
+      else{
+        alert("It's a draw! Double Blackjack!");
+      }
+    }
+    else if(dealerScore === 21){
+      alert("Dealer Wins!");
+    }
+    else if(playerScore > 21){
+      alert("Dealer Wins!");
+    }
+    else if(dealerScore > 21){
+      alert("Player Wins!");
+    }
+    else if(playerScore > dealerScore){
+      alert("Player Wins!");
+    }
+    else if(playerScore === dealerScore){
+      alert("It's a draw!");
+    }
+    else{
+      alert("Dealer Wins!");
+    }
+    gameOver = true;
+  };
+
+  hideFun.scoreCheck = function(who){
+    var aces = [];
+    var handSum = 0;
+    cards[who].forEach(function(card, index){
+      debugger;
+      if(card[0] === 0){
+        handSum += 11;
+        aces.push(index);
+      }
+      else{
+        if(card[0] >= 9)
+        {
+          handSum += 10;
+        }
+        else{
+          handSum += card[0]+1;
+        }
+      };
+    });
+    debugger;
+    if(handSum === 21){
+      gameOver = true;
+    }
+    else if (handSum > 21){
+      debugger;
+      if(aces.length > 0){
+        for(var i = (aces.length-1); i >= 0; i--){ //decrease value of ace
+          handSum -= 10;
+          aces.pop();
+          if(handSum <= 21){
+            i = -1;
+          }
+          else if (i === 0){
+            gameOver = true;
+          }
+        }
+        if(handSum === 21){
+          gameOver = true;
+        }
+      }
+      else{
+        gameOver = true;
+      }
+    }
+    return handSum;
   }
 
   hideFun.hit = function(){
-    var card = cards.draw();
-    cards["player"].push(card);
-    var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card'); //replace this with separate method
-    $playerHand.append($card);
+    debugger;
+    if(!gameOver){
+      var card = cards.draw();
+      cards["player"].push(card);
+      var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card'); //replace this with separate method
+      $playerHand.append($card);
+      if(hideFun.scoreCheck("player") >= 21) hideFun.getWinner();
+    }
+    else{
+      hideFun.newGame();
+    }
   }
 
-  newGame = function(){
+  hideFun.stay = function(){
+    if(!gameOver){
+      hideFun.getWinner();
+    }
+  }
+
+  hideFun.newGame = function(){
     hideFun.newDeck();
     hideFun.clearHands();
     hideFun.clearTable();
     hideFun.initHands();
     hideFun.popTable();
+    gameOver = false;
   }
 
-  $('#newGame').click(newGame);
+  $('#newGame').click(hideFun.newGame);
 
   $('#hit').click(hideFun.hit);
   $('#stay').click(hideFun.stay);
 
-  newGame();
-  debugger;
-
+  hideFun.newGame();
 });
