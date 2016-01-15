@@ -79,9 +79,15 @@ $(document).ready(function(){
   };
 
   hideFun.getWinner = function(){ //draw 21 initially player wins, even draw is called push always a tie, if player busts dealer's card does not need to be revealed
+    hideFun.dealerReveal();
+    while(hideFun.scoreCheck("dealer") < 17){
+      var card = cards.draw();
+      cards["dealer"].push(card);
+      var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card'); //replace this with separate method
+      $dealerHand.append($card);
+    }
     var playerScore = hideFun.scoreCheck("player");
     var dealerScore = hideFun.scoreCheck("dealer");
-    hideFun.dealerReveal()
     if(playerScore === 21){
       if(dealerScore !== 21){
         alert("Player wins!");
