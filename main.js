@@ -95,7 +95,6 @@ $(document).ready(function(){
     var playerScore = hideFun.scoreCheck("player");
     var dealerScore = hideFun.scoreCheck("dealer");
     if(playerScore === 21){
-      console.log("player cards", cards.player.length);
       if(cards.player.length > 2){
         if(dealerScore !== 21){
           $gameOverMessage.text("Player Blackjack!");
@@ -174,8 +173,6 @@ $(document).ready(function(){
         gameOver = true;
       }
     }
-    console.log(handSum);
-    debugger;
     return handSum;
   }
 
