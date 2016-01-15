@@ -13,10 +13,19 @@
 
 body {
   background-image: url("cardTableTile.png");
-  text-align: center; }
+  text-align: center;
+  min-height: 292px;
+  height: 292px; }
 
 #newGame {
-  font-size: 36px; }
+  position: fixed;
+  font-size: 64px;
+  top: 50%;
+  left: 50%;
+  width: 450px;
+  height: 80px;
+  margin-left: -225px;
+  margin-top: -40px; }
 
 #newGame:hover {
   text-shadow: yellow 0 0 2px;
@@ -26,7 +35,27 @@ body {
   text-shadow: blue 0 0 0px, yellow 0 0 2px; }
 
 .card {
-  height: 96px;
+  width: 128px;
   margin: 0 2px 0 2px; }
+
+#dealerHand, #playerHand {
+  position: fixed;
+  left: 0;
+  right: 0; }
+
+#dealerHand {
+  top: 12px; }
+
+#playerHand {
+  bottom: 12px; }
+
+@media (max-height: 514px) {
+  #playerHand {
+    position: absolute;
+    top: 312px; }
+
+  #newGame {
+    position: absolute;
+    top: 258px; } }
 
 /*# sourceMappingURL=style.css.map */
