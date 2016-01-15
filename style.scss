@@ -1,3 +1,36 @@
+*{
+  font-family: 'Rye', cursive;
+}
+
+.no-select {  /*Prevents the user from selecting text*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
 body{
   background-image: url("cardTableTile.png");
+  text-align: center;
+}
+
+#newGame {
+  font-size: 36px;
+}
+
+#newGame:hover{
+  text-shadow: yellow 0 0 2px;
+  cursor: pointer;
+}
+
+#newGame:active{
+  text-shadow: blue 0 0 0px, yellow 0 0 2px;;
+}
+
+.card {
+  height: 96px;
+  margin: 0 2px 0 2px;
 }
