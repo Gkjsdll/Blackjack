@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var cards = {stored: {deck: [], playerHand: [], dealerHand:[]}};
+  var cards = {deck: [], playerHand: [], dealerHand:[]};
   var preload = {cardBacks: [new Image().src = "cards/cardBack.png"]};
 
   for(var i = 1; i <= 13; i++){
@@ -10,18 +10,34 @@ $(document).ready(function(){
   }
 
   cards.draw = function(){
-    return cards.stored.deck.splice(_.random(0, cards.stored.deck.length-1), 1);
+    return Number(cards.deck.splice(_.random(0, cards.deck.length-1), 1));
   };
 
-  cards.newDeck = function(){
-    cards.stored.deck = [];
+  newDeck = function(){
+    cards.deck = [];
     for(var i = 1; i < 14; i++){
-      cards.stored.deck.push(i, i, i, i);
+      cards.deck.push(i, i, i, i);
     }
   }
 
-  cards.newDeck();
-  // cards.hand.push();
+  clearHands = function(){
+    cards.dealerHand = [];
+    cards.playerHand = [];
+  }
+
+  hit = function(who){
+    cards[who+"Hand"].push(cards.draw());
+  }
+
+  newGame = function(){
+    newDeck();
+    clearHands();
+    console.log("test");
+    hit("dealer");
+    hit("player");
+  }
+
+  newGame();
 
   debugger;
 
