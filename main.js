@@ -11,7 +11,7 @@ $(document).ready(function(){
 
   cards.draw = function(){
     return Number(cards.deck.splice(_.random(0, cards.deck.length-1), 1));
-  };
+  }; //
 
   newDeck = function(){
     cards.deck = [];
@@ -25,16 +25,18 @@ $(document).ready(function(){
     cards.playerHand = [];
   }
 
-  hit = function(who){
-    cards[who+"Hand"].push(cards.draw());
+  hit = function(who, count){
+    count = typeof count !== 'undefined' ?  count : 1;
+    for(var i = 0; i < count; i++){
+      cards[who+"Hand"].push(cards.draw());
+    }
   }
 
   newGame = function(){
     newDeck();
     clearHands();
-    console.log("test");
-    hit("dealer");
-    hit("player");
+    hit("dealer", 2);
+    hit("player", 2);
   }
 
   newGame();
