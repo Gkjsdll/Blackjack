@@ -16,7 +16,7 @@ $(document).ready(function(){
     preload.images.push(new Image().src = "cards/"+i+"hearts.png");
     preload.images.push(new Image().src = "cards/"+i+"spades.png");
   }
-  preload.images.push(new Image().src = "cards/cardBack.png");
+  preload.images.push(new Image().src = "cards/cardback.png");
 
   cards.draw = function(){
     return _.flatten(cards.deck.splice(_.random(0, cards.deck.length-1), 1));
