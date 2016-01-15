@@ -20,11 +20,11 @@ $(document).ready(function(){
 
   hideFun.newDeck = function(){
     cards.deck = [];
-    for(var i = 1; i < 14; i++){
+    for(var i = 0; i < 13; i++){
+      cards.deck.push([i, 0]);
       cards.deck.push([i, 1]);
       cards.deck.push([i, 2]);
       cards.deck.push([i, 3]);
-      cards.deck.push([i, 4]);
     }
   }
 
@@ -40,11 +40,12 @@ $(document).ready(function(){
   hideFun.popTable = function(){
     var dealerCards = [];
     cards.dealer.forEach(function(card, index){
+      console.log(card);
       if(index === 0){
         var cardImg = preload.images[52];
       }
       else{
-        var cardImg = preload.images[4*(card[0]-1)+(card[1]-1)]; //math is awesome
+        var cardImg = preload.images[4*card[0]+card[1]]; //math is awesome
       }
       var $card = $('<img>').attr('src', cardImg).addClass('card');
       dealerCards.push($card);
@@ -53,7 +54,8 @@ $(document).ready(function(){
 
     var playerCards = [];
     cards.player.forEach(function(card){
-      var cardImg = preload.images[4*(card[0]-1)+(card[1]-1)]; //math is awesome
+      console.log(card);
+      var cardImg = preload.images[4*card[0]+card[1]]; //math is awesome
       var $card = $('<img>').attr('src', cardImg).addClass('card');
       playerCards.push($card);
     });
