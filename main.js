@@ -7,6 +7,9 @@ $(document).ready(function(){
 
   var $dealerHand = $('#dealerHand');
   var $playerHand = $('#playerHand');
+  var $gameOverMessage = $('#gameOverMessage');
+  var $gameCover = $('#gameCover');
+
 
   var gameOver = false;
 
@@ -90,34 +93,35 @@ $(document).ready(function(){
     if(playerScore === 21){
       if(cards.player.length > 2){
         if(dealerScore !== 21){
-          alert("Player wins!");
+          $gameOverMessage.find('p').text("Player wins!");
         }
         else{
-          alert("It's a draw! Double Blackjack!");
+          $gameOverMessage.find('p').text("It's a draw! Double Blackjack!");
         }
       }
       else{
-        alert("Player wins!");
+        $gameOverMessage.find('p').text("Player wins!");
       }
     }
     else if(dealerScore === 21){
-      alert("Dealer Wins!");
+      $gameOverMessage.find('p').text("Dealer Wins!");
     }
     else if(playerScore > 21){
-      alert("Dealer Wins!");
+      $gameOverMessage.find('p').text("Dealer Wins!");
     }
     else if(dealerScore > 21){
-      alert("Player Wins!");
+      $gameOverMessage.find('p').text("Player Wins!");
     }
     else if(playerScore > dealerScore){
-      alert("Player Wins!");
+      $gameOverMessage.find('p').text("Player Wins!");
     }
     else if(playerScore === dealerScore){
-      alert("It's a draw!");
+      $gameOverMessage.find('p').text("It's a draw!");
     }
     else{
-      alert("Dealer Wins!");
+      $gameOverMessage.find('p').text("Dealer Wins!");
     }
+    $gameCover.css("display", "block");
     gameOver = true;
   };
 
@@ -173,9 +177,6 @@ $(document).ready(function(){
       $playerHand.append($card);
       if(hideFun.scoreCheck("player") >= 21) hideFun.getWinner();
     }
-    else{
-      hideFun.newGame();
-    }
   }
 
   hideFun.stay = function(){
@@ -190,13 +191,18 @@ $(document).ready(function(){
     hideFun.clearTable();
     hideFun.initHands();
     hideFun.popTable();
+    $gameCover.css("display", "none");
     gameOver = false;
   }
 
   $('#newGame').click(hideFun.newGame);
-
   $('#hit').click(hideFun.hit);
   $('#stay').click(hideFun.stay);
+  $gameCover.click(function(e){
+    e.stopPropagation();
+    $gameCover.css("display", "none");
+    hideFun.newGame();
+  });
 
   hideFun.newGame();
 });
