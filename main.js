@@ -75,6 +75,13 @@ $(document).ready(function(){
       }
   }
 
+  hideFun.disco = function(){
+    var discoCade1 = $('<img>').attr('src', 'discoCade_fullSpeed.gif').addClass('cade').css("margin-left", "-400px");
+    var discoCade2 = $('<img>').attr('src', 'discoCade_fullSpeed.gif').addClass('cade').css("margin-left", "282px");
+    $gameCover.prepend(discoCade1);
+    $gameCover.append(discoCade2);
+  }
+
   hideFun.dealerReveal = function(){
     var cardFace = preload.images[4*cards.dealer[0][0]+cards.dealer[0][1]];
     $dealerHand.children().first().attr('src', cardFace);
@@ -85,7 +92,7 @@ $(document).ready(function(){
     while(hideFun.scoreCheck("dealer") < 17){
       var card = cards.draw();
       cards["dealer"].push(card);
-      var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card'); //replace this with separate method
+      var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card no-select'); //replace this with separate method
       $dealerHand.append($card);
     }
     var playerScore = hideFun.scoreCheck("player");
@@ -93,33 +100,35 @@ $(document).ready(function(){
     if(playerScore === 21){
       if(cards.player.length > 2){
         if(dealerScore !== 21){
-          $gameOverMessage.find('p').text("Player wins!");
+          $gameOverMessage.text("Player Blackjack!");
+          hideFun.disco();
         }
         else{
-          $gameOverMessage.find('p').text("It's a draw! Double Blackjack!");
+          $gameOverMessage.text("Double Blackjack!");
+          hideFun.disco();
         }
       }
       else{
-        $gameOverMessage.find('p').text("Player wins!");
+        $gameOverMessage.text("Player wins!");
       }
     }
     else if(dealerScore === 21){
-      $gameOverMessage.find('p').text("Dealer Wins!");
+      $gameOverMessage.text("Dealer Blackjack!");
     }
     else if(playerScore > 21){
-      $gameOverMessage.find('p').text("Dealer Wins!");
+      $gameOverMessage.text("Dealer Wins!");
     }
     else if(dealerScore > 21){
-      $gameOverMessage.find('p').text("Player Wins!");
+      $gameOverMessage.text("Player Wins!");
     }
     else if(playerScore > dealerScore){
-      $gameOverMessage.find('p').text("Player Wins!");
+      $gameOverMessage.text("Player Wins!");
     }
     else if(playerScore === dealerScore){
-      $gameOverMessage.find('p').text("It's a draw!");
+      $gameOverMessage.text("It's a draw!");
     }
     else{
-      $gameOverMessage.find('p').text("Dealer Wins!");
+      $gameOverMessage.text("Dealer Wins!");
     }
     $gameCover.css("display", "block");
     gameOver = true;
@@ -192,6 +201,7 @@ $(document).ready(function(){
     hideFun.initHands();
     hideFun.popTable();
     $gameCover.css("display", "none");
+    $gameCover.find('img').remove();
     gameOver = false;
   }
 
