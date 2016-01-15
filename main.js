@@ -70,9 +70,6 @@ $(document).ready(function(){
   hideFun.initHands = function(){
       cards["player"].push(cards.draw(), cards.draw());
       cards["dealer"].push(cards.draw(), cards.draw());
-      if(hideFun.scoreCheck("player") === 21){
-        hideFun.getWinner();
-      }
   }
 
   hideFun.disco = function(){
@@ -98,6 +95,7 @@ $(document).ready(function(){
     var playerScore = hideFun.scoreCheck("player");
     var dealerScore = hideFun.scoreCheck("dealer");
     if(playerScore === 21){
+      console.log("player cards", cards.player.length);
       if(cards.player.length > 2){
         if(dealerScore !== 21){
           $gameOverMessage.text("Player Blackjack!");
@@ -109,7 +107,8 @@ $(document).ready(function(){
         }
       }
       else{
-        $gameOverMessage.text("Player wins!");
+        $gameOverMessage.text("Player Blackjack!");
+        hideFun.disco();
       }
     }
     else if(dealerScore === 21){
@@ -175,6 +174,8 @@ $(document).ready(function(){
         gameOver = true;
       }
     }
+    console.log(handSum);
+    debugger;
     return handSum;
   }
 
@@ -203,6 +204,9 @@ $(document).ready(function(){
     $gameCover.css("display", "none");
     $gameCover.find('img').remove();
     gameOver = false;
+    if(hideFun.scoreCheck("player") === 21){
+      hideFun.getWinner();
+    }
   }
 
   $('#newGame').click(hideFun.newGame);
