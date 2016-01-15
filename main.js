@@ -62,30 +62,42 @@ $(document).ready(function(){
     $playerHand.append(playerCards);
   }
 
-  hideFun.hit = function(who, count){
-    count = typeof count !== 'undefined' ?  count : 1;
-    if(count > cards.deck.length){
-      hideFun.hit(who, (count-cards.deck.length)); //If there are not enough cards in the deck, draw the cards then shuffle to draw the rest
-    }
-    for(var i = 0; i < count; i++){
-      cards[who].push(cards.draw());
-    }
+  hideFun.initHands = function(){
+      cards["player"].push(cards.draw(), cards.draw());
+      cards["dealer"].push(cards.draw(), cards.draw());
+  }
+
+  hideFun.playerCheck = function(){
+    //check if player's hand >= 21
+  }
+
+  hideFun.dealerCheck = function(){
+    //check if dealer's hand >= 21
+    //else if dealer's hand < 17 hit
+    //else eval dealers hand vs player's hand
+  }
+
+  hideFun.hit = function(){
+    var card = cards.draw();
+    cards["player"].push(card);
+    var $card = $('<img>').attr('src', preload.images[4*card[0]+card[1]]).addClass('card'); //replace this with separate method
+    $playerHand.append($card);
   }
 
   newGame = function(){
     hideFun.newDeck();
     hideFun.clearHands();
     hideFun.clearTable();
-    hideFun.hit("dealer", 2);
-    hideFun.hit("player", 2);
+    hideFun.initHands();
     hideFun.popTable();
   }
 
-
-  newGame();
-
   $('#newGame').click(newGame);
 
+  $('#hit').click(hideFun.hit);
+  $('#stay').click(hideFun.stay);
+
+  newGame();
   debugger;
 
 });
